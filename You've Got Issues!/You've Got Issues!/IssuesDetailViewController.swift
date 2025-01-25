@@ -8,6 +8,12 @@
 import UIKit
 
 class IssuesDetailViewController: UITableViewController {
+    
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var usernameLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var bodyTextView: UITextView!
+    @IBOutlet weak var stateImageView: UIImageView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
