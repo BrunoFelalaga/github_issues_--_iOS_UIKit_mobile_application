@@ -11,7 +11,7 @@ import UIKit
 class ClosedIssueViewController: UITableViewController {
     let issues: [String] = []
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "ShowIssueDetail",
+        if segue.identifier == "ShowIssueDetail" {
            let destination = segue.destination as? IssuesDetailViewController,
            let issue = issues[selectedIndexPath.row]
            destination.issue = issue
