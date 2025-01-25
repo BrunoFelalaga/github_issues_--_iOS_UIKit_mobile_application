@@ -14,7 +14,23 @@ class IssuesDetailViewController: UITableViewController {
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var bodyTextView: UITextView!
     @IBOutlet weak var stateImageView: UIImageView!
-
+    
+//    var issue: GithubIssue?
+    
+    private let apiDateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyy-MM-dd'T'HH:mm:ssZ"
+        return formatter
+    }()
+    
+    private let displayDateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .long
+        formatter.timeStyle = .none
+        return formatter
+    }()
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

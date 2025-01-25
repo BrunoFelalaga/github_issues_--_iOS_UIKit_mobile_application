@@ -107,6 +107,7 @@
                                     <outlet property="stateImageView" destination="Q1k-jW-Vnz" id="rEx-wT-mQp"/>
                                     <outlet property="titleLabel" destination="Vwl-Of-jMX" id="4g2-Y3-fIN"/>
                                     <outlet property="usernameLabel" destination="X3M-6D-fo1" id="iGN-XV-cgo"/>
+                                    <segue destination="gc7-ha-wfc" kind="show" customClass="ShowIssueDetail" id="QVW-iw-WM4"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -116,9 +117,6 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="1rV-lv-9k0"/>
-                    <connections>
-                        <segue destination="gc7-ha-wfc" kind="show" id="b14-QQ-B85"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pZc-ab-o6D" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -164,6 +162,7 @@
                                     <outlet property="stateImageView" destination="DD7-Rn-njB" id="5D1-GV-SBt"/>
                                     <outlet property="titleLabel" destination="aia-9M-2Nh" id="lpw-L2-x8G"/>
                                     <outlet property="usernameLabel" destination="Aur-Li-YnF" id="FWA-nY-VPv"/>
+                                    <segue destination="gc7-ha-wfc" kind="show" customClass="ShowIssueDetail" id="Zcf-v3-Z0t"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -173,9 +172,6 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="rVK-FI-Eq2"/>
-                    <connections>
-                        <segue destination="gc7-ha-wfc" kind="show" id="Ydm-Ab-emD"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4ud-vm-ZOO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -239,7 +235,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="b14-QQ-B85"/>
+        <segue reference="Zcf-v3-Z0t"/>
     </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="labelColor">
