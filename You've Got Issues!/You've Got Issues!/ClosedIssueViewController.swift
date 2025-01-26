@@ -11,11 +11,19 @@ import UIKit
 class ClosedIssueViewController: UITableViewController {
     let issues: [String] = []
     
+//    override func viewDidLoad() {
+//        super.viewDidLoad()
+//        tabBarItem.title = "Closed"
+//        tabBarItem.image = UIImage(systemName: "envelope.badge.fill")
+//    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        tabBarItem.title = "Closed"
-        tabBarItem.image = UIImage(systemName: "envelope.badge.fill")
+        navigationController?.tabBarItem.title = "Closed"
+        navigationController?.tabBarItem.image = UIImage(systemName: "envelope.badge.fill")
+        title = "Closed Issues"
     }
+    
 //    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 //        if segue.identifier == "ShowIssueDetail" {
 //            let destination = segue.destination as? IssuesDetailViewController,
