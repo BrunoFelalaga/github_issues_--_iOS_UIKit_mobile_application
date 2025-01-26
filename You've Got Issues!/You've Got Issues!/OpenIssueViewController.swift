@@ -9,5 +9,9 @@ import Foundation
 import UIKit
 
 class OpenIssueViewController: UITableViewController {
-    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        tabBarItem.title = "Open"
+        tabBarItem.image = UIImage(systemName: "envelope.open.fill")
+    }
 }
