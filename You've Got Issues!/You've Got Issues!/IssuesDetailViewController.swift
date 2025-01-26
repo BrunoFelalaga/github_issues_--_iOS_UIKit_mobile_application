@@ -7,6 +7,13 @@
 
 import UIKit
 
+struct GithubIssue: Codable {
+    let htmlUrl: String
+    
+    enum CodingKeys: String, CodingKey {
+        case htmlUrl = "html_url"
+    }
+}
 class IssuesDetailViewController: UITableViewController {
     
     @IBOutlet weak var titleLabel: UILabel!
@@ -15,7 +22,34 @@ class IssuesDetailViewController: UITableViewController {
     @IBOutlet weak var bodyTextView: UITextView!
     @IBOutlet weak var stateImageView: UIImageView!
     
-//    var issue: GithubIssue?
+    var issue: GithubIssue?
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        // Uncomment the following line to preserve selection between presentations
+        // self.clearsSelectionOnViewWillAppear = false
+
+        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+    }
+    
+    private func setupNavigationBar() {
+        let safariButton = UIBarButtonItem(
+            image: UIImage(systemName: "safari"),
+            style: .plain,
+            target: self,
+            action: #selector(openInSafari)
+        )
+        navigationItem.rightBarButtonItem = safariButton
+    }
+    
+    @objc private func openInSafari() {
+        guard let issue = issue,
+                let url = URL(string: issue.htmlUrl) else { return }
+        UIApplication.shared.open(url)
+    }
     
     private let apiDateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -31,15 +65,6 @@ class IssuesDetailViewController: UITableViewController {
     }()
     
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
-    }
 
     // MARK: - Table view data source
 
