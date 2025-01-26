@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 class ClosedIssueViewController: UITableViewController {
-    let issues: [String] = []
+    var issues: [GithubIssue] = []
     
 //    override func viewDidLoad() {
 //        super.viewDidLoad()
@@ -22,7 +22,21 @@ class ClosedIssueViewController: UITableViewController {
         navigationController?.tabBarItem.title = "Closed"
         navigationController?.tabBarItem.image = UIImage(systemName: "envelope.badge.fill")
         title = "Closed Issues"
+        
+        Task {
+            do {
+                
+                let issues = try await GitHubClient().fetchIssues(state: "closed")
+                self.issues = issues
+                self.tableView.reloadData()
+                
+            } catch {
+                print("Error fetching Closed Issues: \(error)")
+            }
+        }
     }
+    
+    
     
 //    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 //        if segue.identifier == "ShowIssueDetail" {

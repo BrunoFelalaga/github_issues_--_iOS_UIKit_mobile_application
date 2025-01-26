@@ -19,11 +19,11 @@ enum NetworkError: Error {
 //final class GitHubClient {
 class GitHubClient {
     
-    private let baseURL = "https:api.github.com/repos"
-    private let owner = "pytorch"
-    private let repo = "vision"
+    let baseURL = "https:api.github.com/repos"
+    let owner = "pytorch"
+    let repo = "vision"
     
-    private init() {}
+    init() {}
     
     func fetchIssues(state: String) async throws -> [GithubIssue] {
         let urlString = "\(baseURL)/\(owner)/\(repo)/issues?state=\(state)"
