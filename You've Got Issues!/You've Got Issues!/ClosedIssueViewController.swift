@@ -10,14 +10,14 @@ import UIKit
 
 class ClosedIssueViewController: UITableViewController {
     let issues: [String] = []
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "ShowIssueDetail" {
-            let destination = segue.destination as? IssuesDetailViewController,
-            let selectedIndexPath = tableView.indexPathForSelectedRow {
-                let issue = issues[selectedIndePath.row]
-                }
-                
-            destination.issue = issue
-        }
-    }
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if segue.identifier == "ShowIssueDetail" {
+//            let destination = segue.destination as? IssuesDetailViewController,
+//            let selectedIndexPath = tableView.indexPathForSelectedRow {
+//                let issue = issues[selectedIndePath.row]
+//                }
+//                
+//            destination.issue = issue
+//        }
+//    }
 }
