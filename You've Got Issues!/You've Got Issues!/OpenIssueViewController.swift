@@ -28,10 +28,66 @@ class OpenIssueViewController: UITableViewController {
                 let issues = try await GitHubClient().fetchIssues(state: "open")
                 self.issues = issues
                 self.tableView.reloadData()
+                print("OPEN issues: \(issues.count)")
                 
             } catch {
                 print("Error fetching Open Issues: \(error)")
             }
         }
+        
+        refreshControl = UIRefreshControl()
+        refreshControl?.addTarget(self, action: #selector(refreshData), for: .valueChanged)
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return issues.count
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "IssueCell", for: indexPath) as? IssueTableViewCell else {
+            return UITableViewCell() }
+        
+        let issue = issues[indexPath.row]
+        cell.titleLabel.text = issue.title
+        cell.usernameLabel.text = "@\(issue.user.login)"
+        cell.stateImageView.image = UIImage(systemName: issue.state == "open" ? "envelope.open.fill" : "envelope.badge.fill")
+        
+        return cell
+    }
+    
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        performSegue(withIdentifier: "ShowIssueDetail", sender: self)
+    }
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ShowIssueDetail" {
+            if let destination = segue.destination as? IssuesDetailViewController {
+                if let selectedIndexPath = tableView.indexPathForSelectedRow {
+                    destination.issue = issues[selectedIndexPath.row]
+                }
+            }
+        }
+    }
+   
+    @objc private func refreshData() {
+        
+        Task {
+            do {
+                
+                let issues = try await GitHubClient().fetchIssues(state: "open")
+                self.issues = issues
+                self.tableView.reloadData()
+                //print("issues: \(issues.count)")
+                refreshControl?.endRefreshing()
+                
+            } catch {
+                print("Error fetching Open Issues: \(error)")
+                refreshControl?.endRefreshing()
+            }
+        }
+        
     }
 }

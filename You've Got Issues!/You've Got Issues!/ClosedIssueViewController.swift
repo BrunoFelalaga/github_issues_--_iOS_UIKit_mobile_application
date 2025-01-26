@@ -29,11 +29,35 @@ class ClosedIssueViewController: UITableViewController {
                 let issues = try await GitHubClient().fetchIssues(state: "closed")
                 self.issues = issues
                 self.tableView.reloadData()
+                print("CLOSED issues: \(issues.count)")
                 
             } catch {
                 print("Error fetching Closed Issues: \(error)")
             }
         }
+        
+        refreshControl = UIRefreshControl()
+        refreshControl?.addTarget(self, action: #selector(refreshData), for: .valueChanged)
+    }
+    
+    
+    @objc private func refreshData() {
+        
+        Task {
+            do {
+                
+                let issues = try await GitHubClient().fetchIssues(state: "closed")
+                self.issues = issues
+                self.tableView.reloadData()
+                //print("issues: \(issues.count)")
+                refreshControl?.endRefreshing()
+                
+            } catch {
+                print("Error fetching Closed Issues: \(error)")
+                refreshControl?.endRefreshing()
+            }
+        }
+        
     }
     
     

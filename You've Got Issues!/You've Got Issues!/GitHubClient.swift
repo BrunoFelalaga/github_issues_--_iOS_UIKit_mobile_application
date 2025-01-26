@@ -31,7 +31,7 @@ class GitHubClient {
         guard let url = URL(string: urlString) else { throw NetworkError.invalidURL }
         
         var request = URLRequest(url: url)
-        request.setValue("application/vnd.github.v3+json", forHTTPHeaderField: "Accepted")
+        request.setValue("application/vnd.github.v3+json", forHTTPHeaderField: "Accept")
         let (data, response) = try await URLSession.shared.data(for: request)
         
         guard let httpResponse = response as? HTTPURLResponse,
@@ -39,7 +39,7 @@ class GitHubClient {
         
         do {
             let decoder = JSONDecoder()
-            decoder.keyDecodingStrategy = .convertFromSnakeCase
+//            decoder.keyDecodingStrategy = .convertFromSnakeCase
             return try decoder.decode([GithubIssue].self, from: data)
             
         } catch {
