@@ -7,11 +7,26 @@
 
 import UIKit
 
+struct GitHubUser: Codable {
+    let login: String
+}
 struct GithubIssue: Codable {
+    let title: String?
+    let createdAt: String
+    let body: String?
+    let state: String
+    let user: GitHubUser
     let htmlUrl: String
     
     enum CodingKeys: String, CodingKey {
+        
+        case title
+        case createdAt = "created_at"
+        case body
+        case state
+        case user
         case htmlUrl = "html_url"
+        
     }
 }
 class IssuesDetailViewController: UITableViewController {
@@ -27,12 +42,7 @@ class IssuesDetailViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        setupNavigationBar()
     }
     
     private func setupNavigationBar() {
