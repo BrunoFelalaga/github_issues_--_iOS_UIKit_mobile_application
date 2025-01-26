@@ -29,7 +29,8 @@ struct GithubIssue: Codable {
         
     }
 }
-class IssuesDetailViewController: UITableViewController {
+//class IssuesDetailViewController: UITableViewController {
+class IssuesDetailViewController: UIViewController {
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var usernameLabel: UILabel!
