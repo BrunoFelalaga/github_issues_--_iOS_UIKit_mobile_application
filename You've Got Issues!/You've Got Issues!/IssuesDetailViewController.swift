@@ -44,6 +44,18 @@ class IssuesDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
+        
+        guard let issue = issue else { return }
+        
+        titleLabel.text = issue.title
+        usernameLabel.text = "@\(issue.user.login)"
+        bodyTextView.text = issue.body
+        
+        if let date = apiDateFormatter.date(from: issue.createdAt) {
+            dateLabel.text = displayDateFormatter.string(from: date)
+        }
+        
+        stateImageView.image = UIImage(systemName: issue.state == "open" ? "envelope.open.fill" : "envelope.badge.fill")
     }
     
     private func setupNavigationBar() {
