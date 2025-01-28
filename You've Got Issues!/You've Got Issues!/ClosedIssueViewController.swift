@@ -19,9 +19,15 @@ class ClosedIssueViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = "Closed Issues" // this sets the top bar title, but why?
+        let navBarAppearance = UINavigationBarAppearance()
+        navBarAppearance.backgroundColor = .systemGreen
+        navigationController?.navigationBar.standardAppearance = navBarAppearance
+        navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
+        
         navigationController?.tabBarItem.title = "Closed"
         navigationController?.tabBarItem.image = UIImage(systemName: "envelope.badge.fill")
-        title = "Closed Issues"
+//        title = "Closed Issues"
         
         Task {
             do {
@@ -40,6 +46,42 @@ class ClosedIssueViewController: UITableViewController {
         refreshControl?.addTarget(self, action: #selector(refreshData), for: .valueChanged)
     }
     
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return issues.count
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "IssueCell", for: indexPath) as? IssueTableViewCell else {
+            return UITableViewCell()
+        }
+        
+        let issue = issues[indexPath.row]
+        cell.titleLabel.text = issue.title
+        cell.usernameLabel.text = "@\(issue.user.login)"
+        cell.stateImageView.image = UIImage(systemName: issue.state == "closed" ? "envelope.badge.fill" : "envelope.open.fill")
+        
+        return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        performSegue(withIdentifier: "ShowIssueDetail", sender: self)
+    }
+    
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ShowIssueDetail" {
+            if let destination = segue.destination as? IssuesDetailViewController {
+                if let selectedIndexPath = tableView.indexPathForSelectedRow {
+                    destination.issue = issues[selectedIndexPath.row]
+                }
+            }
+        }
+    }
     
     @objc private func refreshData() {
         

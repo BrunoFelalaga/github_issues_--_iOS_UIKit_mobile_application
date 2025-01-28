@@ -18,9 +18,15 @@ class OpenIssueViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = "Open Issues"
+        let navBarAppearance = UINavigationBarAppearance()
+        navBarAppearance.backgroundColor = .systemRed
+        navigationController?.navigationBar.standardAppearance = navBarAppearance
+        navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
+        
         navigationController?.tabBarItem.title = "Open"
         navigationController?.tabBarItem.image = UIImage(systemName: "envelope.open.fill")
-        title = "Open Issues"
+//        title = "Open Issues"
         
         Task {
             do {
@@ -34,6 +40,8 @@ class OpenIssueViewController: UITableViewController {
                 print("Error fetching Open Issues: \(error)")
             }
         }
+        
+        self.tableView.reloadData() // ?? here?
         
         refreshControl = UIRefreshControl()
         refreshControl?.addTarget(self, action: #selector(refreshData), for: .valueChanged)
