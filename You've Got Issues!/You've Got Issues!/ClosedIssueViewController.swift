@@ -16,17 +16,34 @@ class ClosedIssueViewController: UITableViewController {
 //        tabBarItem.title = "Closed"
 //        tabBarItem.image = UIImage(systemName: "envelope.badge.fill")
 //    }
+    override init(nibName: String?, bundle: Bundle?) {
+        super.init(nibName: nibName, bundle: bundle)
+        tabBarItem.title = "Closed"
+        tabBarItem.image = UIImage(systemName: "envelope.badge.fill")
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        tabBarItem.title = "Closed"
+        tabBarItem.image = UIImage(systemName: "envelope.badge.fill")
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Closed Issues" // this sets the top bar title, but why?
         let navBarAppearance = UINavigationBarAppearance()
+//        navBarAppearance.titleTextAttributes = "Open Issues"
         navBarAppearance.backgroundColor = .systemGreen
         navigationController?.navigationBar.standardAppearance = navBarAppearance
         navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
-        
+//        
         navigationController?.tabBarItem.title = "Closed"
-        navigationController?.tabBarItem.image = UIImage(systemName: "envelope.badge.fill")
+//        navigationController?.tabBarItem.image = UIImage(systemName: "envelope.badge.fill")
+//        
+//        
+//        tabBarItem.title = "Closed"
+//        tabBarItem.image = UIImage(systemName: "envelope.badge.fill")
 //        title = "Closed Issues"
         
         Task {

@@ -16,16 +16,32 @@ class OpenIssueViewController: UITableViewController {
 //    }
     var issues: [GithubIssue] = []
     
+    
+    override init(nibName: String?, bundle: Bundle?) {
+        super.init(nibName: nibName, bundle: bundle)
+        tabBarItem.title = "Open"
+        tabBarItem.image = UIImage(systemName: "envelope.open.fill")
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        tabBarItem.title = "Open"
+        tabBarItem.image = UIImage(systemName: "envelope.open.fill")
+        
+    }
+    
     override func viewDidLoad() {
+        
+        
         super.viewDidLoad()
         title = "Open Issues"
         let navBarAppearance = UINavigationBarAppearance()
         navBarAppearance.backgroundColor = .systemRed
         navigationController?.navigationBar.standardAppearance = navBarAppearance
         navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
-        
+//
         navigationController?.tabBarItem.title = "Open"
-        navigationController?.tabBarItem.image = UIImage(systemName: "envelope.open.fill")
+//        navigationController?.tabBarItem.image = UIImage(systemName: "envelope.open.fill")
 //        title = "Open Issues"
         
         Task {
