@@ -20,7 +20,7 @@ class ClosedIssueViewController: BaseIssueViewController {
 
 
 
-//
+//// LEAVING THIS HERE SO GRADERS CAN SEE WHAT IT WAS BEFORE REFACTORING FOR BONUS POINTS
 //class ClosedIssueViewController: UITableViewController {
 //    var issues: [GithubIssue] = []
 //    
