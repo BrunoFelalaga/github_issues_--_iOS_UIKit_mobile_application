@@ -9,6 +9,8 @@ import Foundation
 import UIKit
 
 
+/// View controller for displaying open issues.
+/// Inherits common behavior from `BaseIssueViewController` and defines custom open-issue-specific properties.
 class OpenIssueViewController: BaseIssueViewController {
     override var issueState: String { "open" }
     override var navigationBarColor: UIColor { .systemRed }

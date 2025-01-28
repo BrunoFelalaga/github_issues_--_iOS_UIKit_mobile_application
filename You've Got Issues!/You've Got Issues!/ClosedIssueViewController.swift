@@ -9,6 +9,8 @@ import Foundation
 import UIKit
 
 
+// View controller for displaying closed issues.
+// Inherits common behavior from `BaseIssueViewController` and defines custom closed-issue-specific properties.
 class ClosedIssueViewController: BaseIssueViewController {
     override var issueState: String { "closed" }
     override var navigationBarColor: UIColor { .systemGreen }

@@ -1,38 +1,20 @@
-//
-//  BaseIssueViewController.swift
-//  You've Got Issues!
-//
-//  Created by Bruno Felalaga on 1/28/25.
-//
-
-
-import Foundation
-import UIKit
-
 class BaseIssueViewController: UITableViewController {
     var issues: [GithubIssue] = []
-
-    // Subclasses must override these to define their custom behaviors
     var issueState: String { fatalError("Subclasses must override issueState") }
     var navigationBarColor: UIColor { fatalError("Subclasses must override navigationBarColor") }
     var tabTitle: String { fatalError("Subclasses must override tabTitle") }
     var tabImage: String { fatalError("Subclasses must override tabImage") }
     
-    // These next two init functions are so the upon launching the app the tab bar items both show their features(title and image rather than item). 
-        //Else the one whose segue was added last would dshow up as item without an image
-    // Initializes the view controller with a nib file and bundle and set up tab bar config
     override init(nibName: String?, bundle: Bundle?) {
         super.init(nibName: nibName, bundle: bundle)
         setupTabBar()
     }
     
-    // Initializes the view controller with a coder and set up the tab bar configuration.
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setupTabBar()
     }
     
-    // Configure the tab bar item with a title and an image.
     private func setupTabBar() {
         tabBarItem.title = tabTitle
         tabBarItem.image = UIImage(systemName: tabImage)
@@ -45,25 +27,20 @@ class BaseIssueViewController: UITableViewController {
         setupRefreshControl()
     }
     
-    // Set up the user interface for the navigation bar and tab bar titles and appearance.
     private func setupUI() {
         title = "\(tabTitle) Issues"
         let navBarAppearance = UINavigationBarAppearance()
         navBarAppearance.backgroundColor = navigationBarColor
-        navigationController?.navigationBar.standardAppearance = navBarAppearance // Apply appearance to standard state and scroll edge
+        navigationController?.navigationBar.standardAppearance = navBarAppearance
         navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
         navigationController?.tabBarItem.title = tabTitle
     }
     
-
-    // Configure the pull-to-refresh control for the table view. Associate control with refreshData function
     private func setupRefreshControl() {
         refreshControl = UIRefreshControl()
-        refreshControl?.addTarget(self, action: #selector(refreshData), for: .valueChanged) // add refreshData as target
+        refreshControl?.addTarget(self, action: #selector(refreshData), for: .valueChanged)
     }
     
-    // Fetch issues list from GitHub with issue state and update issues array and update table view
-    // https://forums.swift.org/t/concurrent-downloads-with-async-task-group/59282
     private func fetchIssues() {
         Task {
             do {
@@ -76,42 +53,35 @@ class BaseIssueViewController: UITableViewController {
         }
     }
     
-    // Refreshing data by fetching updates from github with a Task in background
     @objc private func refreshData() {
         Task {
             do {
                 let issues = try await GitHubClient().fetchIssues(state: issueState)
                 self.issues = issues
-                self.tableView.reloadData() // Reload table view to reflect changes
-                refreshControl?.endRefreshing()  // Stop the refresh control animation
+                self.tableView.reloadData()
+                refreshControl?.endRefreshing()
             } catch {
                 print("Error fetching \(tabTitle) Issues: \(error)")
-                refreshControl?.endRefreshing() // Ensure refresh animation stops even with error
+                refreshControl?.endRefreshing()
             }
         }
     }
     
     // MARK: - Table View Data Source
-    // Number of sections in table
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    // Get number of rows in table
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return issues.count
     }
     
-    // Cell function. Dequeue reusable cells, set title, username and image
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "IssueCell", for: indexPath) as? IssueTableViewCell else { // Dequeue a reusable cell of type IssueTableViewCell
-            return UITableViewCell() // Return an empty cell if the cast fails
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "IssueCell", for: indexPath) as? IssueTableViewCell else {
+            return UITableViewCell()
         }
         
         let issue = issues[indexPath.row]
-
-        // Populate cell fields with issue data
         cell.titleLabel.text = issue.title
         cell.usernameLabel.text = "@\(issue.user.login)"
         cell.stateImageView.image = UIImage(systemName: issue.state == "open" ? "envelope.open.fill" : "envelope.badge.fill")
@@ -121,34 +91,29 @@ class BaseIssueViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-//        performSegue(withIdentifier: "ShowIssueDetail", sender: self)
+        performSegue(withIdentifier: "ShowIssueDetail", sender: self)
     }
     
-    // Pass the selected issue to the IssuesDetailViewController before the segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ShowIssueDetail",
            let destination = segue.destination as? IssuesDetailViewController,
            let selectedIndexPath = tableView.indexPathForSelectedRow {
-            destination.issue = issues[selectedIndexPath.row] // Pass the selected issue
+            destination.issue = issues[selectedIndexPath.row]
         }
     }
 }
 
-
-//
-//class OpenIssueViewController: BaseIssueViewController {
-//    override var issueState: String { "open" }
-//    override var navigationBarColor: UIColor { .systemRed }
-//    override var tabTitle: String { "Open" }
-//    override var tabImage: String { "envelope.open.fill" }
-//}
-//
-//
-//class ClosedIssueViewController: BaseIssueViewController {
-//    override var issueState: String { "closed" }
-//    override var navigationBarColor: UIColor { .systemGreen }
-//    override var tabTitle: String { "Closed" }
-//    override var tabImage: String { "envelope.badge.fill" }
-//}
+class OpenIssueViewController: BaseIssueViewController {
+    override var issueState: String { "open" }
+    override var navigationBarColor: UIColor { .systemRed }
+    override var tabTitle: String { "Open" }
+    override var tabImage: String { "envelope.open.fill" }
+}
 
 
+class ClosedIssueViewController: BaseIssueViewController {
+    override var issueState: String { "closed" }
+    override var navigationBarColor: UIColor { .systemGreen }
+    override var tabTitle: String { "Closed" }
+    override var tabImage: String { "envelope.badge.fill" }
+}
