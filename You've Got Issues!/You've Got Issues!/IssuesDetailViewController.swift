@@ -29,7 +29,7 @@ struct GithubIssue: Codable {
         
     }
 }
-//class IssuesDetailViewController: UITableViewController {
+
 class IssuesDetailViewController: UIViewController {
     
     @IBOutlet weak var titleLabel: UILabel!
@@ -54,7 +54,7 @@ class IssuesDetailViewController: UIViewController {
         if let date = apiDateFormatter.date(from: issue.createdAt) {
             dateLabel.text = displayDateFormatter.string(from: date)
         }
-//        
+       
         stateImageView.image = UIImage(systemName: issue.state == "open" ? "envelope.open.fill" : "envelope.badge.fill")
     }
     
@@ -88,8 +88,4 @@ class IssuesDetailViewController: UIViewController {
     }()
     
     
-
-    
-
-
 }
